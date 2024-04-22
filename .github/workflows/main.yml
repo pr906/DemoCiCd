@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-        - name: Setup JDK
+      - name: Setup JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
@@ -26,22 +26,3 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      # - name: Setup Android SDK
-      #   uses: android-actions/setup-android@v2
-
-      #  - name: Build Android APK
-      #   run: |
-      #     cd android
-      #     ./gradlew assembleRelease
-
-      # - name: Build for iOS
-      #   run: npm run ios
-
-
-      # - name: Deploy
-      #   uses: JamesIves/github-pages-deploy-action@3.7.1
-      #   with:
-      #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      #     BRANCH: gh-pages
-      #     FOLDER: build
