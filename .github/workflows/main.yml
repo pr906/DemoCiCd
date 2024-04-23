@@ -1,43 +1,20 @@
-name: CI/CD
-
+name: Build
 on:
   push:
     branches:
       - main
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
-  build:
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-
-      - name: Build Android APK
-        run: |
-          cd android
-          ./gradlew assembleRelease
-      
-     
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@main
+        uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
